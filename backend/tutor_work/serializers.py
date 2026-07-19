@@ -29,9 +29,10 @@ class TutorRegistrationSerializer(serializers.ModelSerializer):
             return user
 
 class TutorProfileSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='user.id')
     username = serializers.ReadOnlyField(source='user.username')
     email = serializers.ReadOnlyField(source='user.email')
 
     class Meta:
         model = TutorProfile
-        fields = ['username', 'email', 'bio', 'subjects', 'hourly_rate']
+        fields = ['id', 'username', 'email', 'bio', 'subjects', 'hourly_rate']
