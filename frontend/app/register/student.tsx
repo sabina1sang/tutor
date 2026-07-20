@@ -2,10 +2,12 @@ import React from 'react';
 import { View, StyleSheet, Button, Alert } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'expo-router';
 import { FormField } from '../../src/components/FormField';
 import apiClient from '../../src/api/client';
 
 export default function StudentRegistrationScreen() {
+  const router = useRouter();
   const { control, handleSubmit } = useForm({
     defaultValues: { username: '', email: '', password: '' },
   });
@@ -13,7 +15,8 @@ export default function StudentRegistrationScreen() {
   const mutation = useMutation({
     mutationFn: (data: any) => apiClient.post('/auth/register/student/', data),
     onSuccess: () => {
-      Alert.alert('Success', 'Account created! Please log in.');
+      Alert.alert('Success', 'Account created! Redirecting to login.');
+      router.replace('/login');
     },
     onError: (error: any) => {
       Alert.alert('Error', error.response?.data?.detail || 'Registration failed');
